@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:textSize="30sp"
-        android:text="我是Shortcut的导流!!!"/>
+        android:text="我是Shortcut的导流!!!"
+        android:textSize="30sp"/>
 
 </LinearLayout>

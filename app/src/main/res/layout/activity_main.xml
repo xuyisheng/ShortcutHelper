@@ -8,7 +8,7 @@
               android:paddingLeft="@dimen/activity_horizontal_margin"
               android:paddingRight="@dimen/activity_horizontal_margin"
               android:paddingTop="@dimen/activity_vertical_margin"
-              tools:context="com.hujiang.hjshortcutlib.MainActivity">
+              tools:context="com.xys.shortcut_lib.ShortcutActivity">
 
     <Button
         android:layout_width="match_parent"
@@ -33,5 +33,29 @@
         android:layout_height="wrap_content"
         android:onClick="toggleFlowEntrance"
         android:text="显示/移除导流入口"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="addBadgeInIcon"
+        android:text="添加角标测试"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="delBadgeInIcon"
+        android:text="移除角标"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="madMode"
+        android:text="疯狂模式"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="cleanMadMode"
+        android:text="恢复清醒"/>
 
 </LinearLayout>
