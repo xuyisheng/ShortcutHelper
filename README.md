@@ -182,3 +182,36 @@
         return intent;
     }
 ```
+
+## 添加Badge
+
+``` java
+/**
+ * 设置Badge 目前支持Launcher:
+ * <p/>
+ * MIUI
+ * Sony
+ * Samsung
+ * LG
+ * HTC
+ * Nova
+ *
+ * @param context context
+ * @param count   count
+ */
+public static void setBadgeCount(Context context, int count)
+```
+
+该方法可以给icon图标增加角标。
+
+## 移除Badge
+
+``` java
+/**
+ * 重置Badge
+ *
+ * @param context context
+ */
+public static void resetBadgeCount(Context context)
+```
+
