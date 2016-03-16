@@ -8,10 +8,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
-
-import com.xys.shortcut_lib.R;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -31,7 +30,7 @@ public class BadgeUtil {
      * @param context context
      * @param count   count
      */
-    public static void setBadgeCount(Context context, int count) {
+    public static void setBadgeCount(Context context, int count, int iconResId) {
         // TODO 生成器模式重构
         if (count <= 0) {
             count = 0;
@@ -39,7 +38,7 @@ public class BadgeUtil {
             count = Math.max(0, Math.min(count, 99));
         }
         if (Build.MANUFACTURER.equalsIgnoreCase("xiaomi")) {
-            setBadgeOfMIUI(context, count);
+            setBadgeOfMIUI(context, count, iconResId);
         } else if (Build.MANUFACTURER.equalsIgnoreCase("sony")) {
             setBadgeOfSony(context, count);
         } else if (Build.MANUFACTURER.toLowerCase().contains("samsung") ||
@@ -60,12 +59,12 @@ public class BadgeUtil {
      * @param context context
      * @param count   count
      */
-    private static void setBadgeOfMIUI(Context context, int count) {
+    private static void setBadgeOfMIUI(Context context, int count, int iconResId) {
         Log.d("xys", "Launcher : MIUI");
         NotificationManager mNotificationManager = (NotificationManager) context
                 .getSystemService(Context.NOTIFICATION_SERVICE);
-        Notification.Builder builder = new Notification.Builder(context)
-                .setContentTitle("title").setContentText("text").setSmallIcon(R.mipmap.ic_launcher);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
+        builder.setContentTitle("title").setContentText("text").setSmallIcon(iconResId);
         Notification notification = builder.build();
         try {
             Field field = notification.getClass().getDeclaredField("extraNotification");
@@ -171,7 +170,7 @@ public class BadgeUtil {
      *
      * @param context context
      */
-    public static void resetBadgeCount(Context context) {
-        setBadgeCount(context, 0);
+    public static void resetBadgeCount(Context context, int iconResId) {
+        setBadgeCount(context, 0, iconResId);
     }
 }
