@@ -8,7 +8,11 @@ import android.content.pm.PackageManager;
  * Created by xuyisheng on 15/10/30.
  * Version 1.0
  */
-public class FlowEntranceUtil {
+public final class FlowEntranceUtil {
+
+    private FlowEntranceUtil() throws InstantiationException {
+        throw new InstantiationException("This class is not for instantiation");
+    }
 
     /**
      * 显示\隐藏Launcher入口

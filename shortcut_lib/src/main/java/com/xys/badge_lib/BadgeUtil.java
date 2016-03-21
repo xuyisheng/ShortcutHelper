@@ -16,7 +16,11 @@ import com.xys.shortcut_lib.R;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-public class BadgeUtil {
+public final class BadgeUtil {
+
+    private BadgeUtil() throws InstantiationException {
+        throw new InstantiationException("This class is not for instantiation");
+    }
 
     /**
      * 设置Badge 目前支持Launcher:
