@@ -20,9 +20,7 @@
             android:name="com.xys.shortcut_lib.ShortcutActivity"
             android:theme="@style/Base.Theme.AppCompat.Dialog">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.CREATE_SHORTCUT" />
             </intent-filter>
         </activity>
 
