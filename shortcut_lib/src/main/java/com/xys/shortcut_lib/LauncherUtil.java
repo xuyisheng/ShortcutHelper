@@ -16,9 +16,13 @@ import java.util.List;
  *
  * @version 1.0
  */
-public class LauncherUtil {
+public final class LauncherUtil {
 
     private static String mBufferedValue = null;
+
+    private LauncherUtil() throws InstantiationException {
+      throw new InstantiationException("This class is not for instantiation");  
+    }
 
     /**
      * get the current Launcher's Package Name

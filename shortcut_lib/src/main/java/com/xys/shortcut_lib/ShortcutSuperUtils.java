@@ -21,7 +21,11 @@ import java.util.List;
  * Created by xuyisheng on 15/11/6.
  * version 1.0
  */
-public class ShortcutSuperUtils {
+public final class ShortcutSuperUtils {
+
+    private ShortcutSuperUtils() throws InstantiationException {
+        throw new InstantiationException("This class is not for instantiation");
+    }
 
     /**
      * 判断快捷方式是否存在

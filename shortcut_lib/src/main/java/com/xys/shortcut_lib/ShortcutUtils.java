@@ -8,12 +8,16 @@ import android.graphics.Bitmap;
  * Created by xuyisheng on 15/10/30.
  * Version 1.0
  */
-public class ShortcutUtils {
+public final class ShortcutUtils {
 
     // Action 添加Shortcut
     public static final String ACTION_ADD_SHORTCUT = "com.android.launcher.action.INSTALL_SHORTCUT";
     // Action 移除Shortcut
     public static final String ACTION_REMOVE_SHORTCUT = "com.android.launcher.action.UNINSTALL_SHORTCUT";
+
+    private ShortcutUtils() throws InstantiationException {
+        throw new InstantiationException("This class is not for instantiation");
+    }
 
     /**
      * 添加快捷方式

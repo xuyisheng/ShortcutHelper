@@ -5,7 +5,11 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 
-public class AppInfoUtil {
+public final class AppInfoUtil {
+
+    private AppInfoUtil() throws InstantiationException {
+        throw new InstantiationException("This class is not for instantiation");
+    }
 
     /**
      * Retrieve launcher activity name of the application from the context
