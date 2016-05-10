@@ -10,6 +10,7 @@ import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -21,12 +22,11 @@ import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RoundRectShape;
 import android.net.Uri;
 import android.os.Build;
+import android.support.v4.content.res.ResourcesCompat;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
-
-import com.xys.shortcut_lib.R;
 
 import java.util.List;
 
@@ -371,15 +371,36 @@ public class AppShortCutUtil {
      *
      * @param context   context
      * @param clazz     启动的activity
+     * @param nameResId 快捷方式名字的资源ID
+     * @param iconResId 图标的资源ID
      * @param isShowNum 是否显示数字
      * @param num       显示的数字：整型
      * @param isStroke  是否加上边框
      */
-    public static void installRawShortCut(Context context, Class<?> clazz, boolean isShowNum, String num, boolean isStroke) {
+    public static void installRawShortCut(Context context, Class<?> clazz, int nameResId,
+            int iconResId, boolean isShowNum, String num, boolean isStroke) {
+        String name = context.getString(nameResId);
+        Bitmap icon = BitmapFactory.decodeResource(context.getResources(), iconResId);
+        installRawShortCut(context, clazz, name, icon, isShowNum, num, isStroke);
+    }
+
+    /***
+     * 创建原生系统的快捷方式
+     *
+     * @param context   context
+     * @param clazz     启动的activity
+     * @param name      快捷方式的名字
+     * @param icon      图标
+     * @param isShowNum 是否显示数字
+     * @param num       显示的数字：整型
+     * @param isStroke  是否加上边框
+     */
+    public static void installRawShortCut(Context context, Class<?> clazz, String name,
+            Bitmap icon, boolean isShowNum, String num, boolean isStroke) {
         Log.e(TAG, "installShortCut....");
         Intent shortcutIntent = new Intent("com.android.launcher.action.INSTALL_SHORTCUT");
         //名称
-        shortcutIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, context.getString(R.string.app_name));
+        shortcutIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, name);
         // 是否可以有多个快捷方式的副本，参数如果是true就可以生成多个快捷方式，如果是false就不会重复添加
         shortcutIntent.putExtra("duplicate", false);
         //点击快捷方式：打开activity
@@ -390,18 +411,10 @@ public class AppShortCutUtil {
         //快捷方式的图标
         if (isStroke) {
             shortcutIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON,
-                    generatorNumIcon4(
-                            context,
-                            ((BitmapDrawable) context.getResources().getDrawable(R.mipmap.ic_launcher)).getBitmap(),
-                            isShowNum,
-                            num));
+                    generatorNumIcon4(context, icon, isShowNum, num));
         } else {
             shortcutIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON,
-                    generatorNumIcon2(
-                            context,
-                            ((BitmapDrawable) context.getResources().getDrawable(R.mipmap.ic_launcher)).getBitmap(),
-                            isShowNum,
-                            num));
+                    generatorNumIcon2(context, icon, isShowNum, num));
         }
         context.sendBroadcast(shortcutIntent);
     }
@@ -413,7 +426,7 @@ public class AppShortCutUtil {
      * @param context context
      * @return 是否已经创建了快捷方式
      */
-    public static boolean isAddShortCut(Context context) {
+    public static boolean isAddShortCut(Context context, String name) {
         Log.e(TAG, "isAddShortCut....");
         boolean isInstallShortcut = false;
         final ContentResolver cr = context.getContentResolver();
@@ -433,7 +446,7 @@ public class AppShortCutUtil {
                 + "/favorites?notify=true");
         Cursor c = cr.query(CONTENT_URI,
                 new String[]{"title"}, "title=?",
-                new String[]{context.getString(R.string.app_name)}, null);
+                new String[]{name}, null);
         if (c != null && c.getCount() > 0) {
             isInstallShortcut = true;
         }
@@ -450,7 +463,7 @@ public class AppShortCutUtil {
      * @param context context
      * @param clazz   clazz
      */
-    public static void deleteShortCut(Context context, Class<?> clazz) {
+    public static void deleteShortCut(Context context, Class<?> clazz, String name) {
         Log.e(TAG, "delShortcut....");
         if (Build.MANUFACTURER.equalsIgnoreCase("Xiaomi")) {
             //小米
@@ -461,7 +474,7 @@ public class AppShortCutUtil {
             samsungShortCut(context, "0");
         } else {//其他原生系统手机
             //删除显示数字的快捷方式
-            deleteRawShortCut(context, clazz);
+            deleteRawShortCut(context, clazz, name);
             //安装不显示数字的快捷方式
             //installRawShortCut(context, clazz, false, "0");
         }
@@ -473,10 +486,10 @@ public class AppShortCutUtil {
      * @param context context
      * @param clazz   启动的activity
      */
-    public static void deleteRawShortCut(Context context, Class<?> clazz) {
+    public static void deleteRawShortCut(Context context, Class<?> clazz, String name) {
         Intent intent = new Intent("com.android.launcher.action.UNINSTALL_SHORTCUT");
         //快捷方式的名称
-        intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, context.getString(R.string.app_name));
+        intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, name);
         Intent intent2 = new Intent();
         intent2.setClass(context, clazz);
         intent2.setAction(Intent.ACTION_MAIN);
